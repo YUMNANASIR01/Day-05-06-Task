@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useState } from 'react'
@@ -7,79 +6,12 @@ import Link from 'next/link'
 import { Search, Heart, ShoppingCart, UserCircle, X, Menu } from 'lucide-react'
 import { useAtom } from 'jotai'
 import { cartNumber } from '@/globalState/globalState'
-import emailjs from 'emailjs-com'
+
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [isLogin, setIsLogin] = useState(true)
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-  })
-  const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [cartNum] = useAtom(cartNumber)
 
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {}
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-    if (!formData.email) {
-      newErrors.email = 'Email is required'
-    } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Invalid email format'
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required'
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters'
-    }
-
-    if (!isLogin && formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (validateForm()) {
-      // EmailJS integration
-      const templateParams = {
-        email: formData.email,
-        message: isLogin
-          ? 'User logged in successfully!'
-          : 'New user signed up successfully!',
-      }
-
-      try {
-        await emailjs.send(
-          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-          templateParams,
-          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-        )
-        console.log('Email sent successfully!')
-        setShowAuthModal(false)
-        setFormData({ email: '', password: '', confirmPassword: '' })
-        setErrors({})
-      } catch (error) {
-        console.error('Error sending email:', error)
-      }
-    }
-  }
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }))
-    }
-  }
 
   return (
     <nav className="relative w-full bg-white z-50">
@@ -146,13 +78,14 @@ export default function Navbar() {
 
           {/* Icons Section */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <button
+           <Link href={'/login'}>
+           <button
               aria-label="Account"
               className="p-2 hover:bg-black/5 rounded-full transition-colors"
-              onClick={() => setShowAuthModal(true)}
             >
               <UserCircle className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
+            </Link>
             <Link href={'/shop'}>
               <button
                 aria-label="Search"
@@ -186,106 +119,31 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Auth Modal */}
-      {showAuthModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 w-full max-w-md">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">
-                {isLogin ? 'Login' : 'Sign Up'}
-              </h2>
-              <button
-                onClick={() => {
-                  setShowAuthModal(false)
-                  setErrors({})
-                }}
-                className="p-2 hover:bg-gray-100 rounded-full"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-md"
-                  required
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-md"
-                  required
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                )}
-              </div>
-
-              {!isLogin && (
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  />
-                  {errors.confirmPassword && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.confirmPassword}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors"
-              >
-                {isLogin ? 'Login' : 'Sign Up'}
-              </button>
-            </form>
-
-            <p className="mt-4 text-center">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
-              <button
-                type="button"
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-blue-500 hover:underline"
-              >
-                {isLogin ? 'Sign Up' : 'Login'}
-              </button>
-            </p>
-          </div>
+      {/* Mobile menu */}
+      <div className={`md:hidden ${menuOpen ? 'block' : 'hidden'} absolute top-0 left-0 w-full bg-white p-4`}>
+        {/* Cross icon to close the menu */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="p-2 text-black hover:bg-black/10 rounded-full"
+          >
+            <X className="w-6 h-6" />
+          </button>
         </div>
-      )}
+
+        {/* Menu items */}
+        <div className="flex flex-col space-y-4">
+          <Link href="/" className="text-black">Home</Link>
+          <Link href="/shop" className="text-black">Shop</Link>
+          <Link href="/blog" className="text-black">Blog</Link>
+          <Link href="/contact" className="text-black">Contact</Link>
+        </div>
+      </div>
+
+      
     </nav>
   )
 }
-
-
-
 
 
 
