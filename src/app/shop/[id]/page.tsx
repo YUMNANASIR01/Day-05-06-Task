@@ -3,7 +3,7 @@ import Spmain from "@/components/spmain/Spmain";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Productdetails from "@/components/productdetails/Productdetails";
-import Relatedproducts from "@/components/relatedProduct/Relatedproducts"
+
 
 // Page Component
 export default async function SingleProduct({searchParams}: 
@@ -44,7 +44,7 @@ export default async function SingleProduct({searchParams}:
       
       <Spmain id={id} productName={title} productPrice={price} productImage={imageUrl} productDescription={description} dicountPercentage={discountPercentage} tags={tags} isNew={isNew} />
 
-      <Productdetails productImage={imageUrl}/>
+      <Productdetails productImage={imageUrl} productDescription={description}/>
       
       {/* Related Products Section */}
       {/* <Relatedproducts product={product} /> */}

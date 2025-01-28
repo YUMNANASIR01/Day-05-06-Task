@@ -25,7 +25,7 @@ function OurProducts() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("https://template6-six.vercel.app/api/products");
+        const res = await fetch("*[_type == 'product']");
         const data = await res.json();
         setProducts(data);
       } catch (error) {
