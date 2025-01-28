@@ -1,5 +1,4 @@
-
-'use client'
+'use client';
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Heart, Share2, BarChart2, ShoppingCart } from "lucide-react";
@@ -30,6 +29,7 @@ export default function ProductGrid() {
           "imageUrl": productImage.asset->url,
           tags
         }`);
+        console.log("Fetched Products:", data); // Debug: Check fetched data
         setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -69,14 +69,15 @@ export default function ProductGrid() {
           <div className="text-center text-red-500 text-lg">{errorMessage}</div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {products.map((product: Product, index: number) => (
-              <Card key={index} className="group relative overflow-hidden shadow-md">
+            {products.map((product: Product) => (
+              <Card key={product._id} className="group relative overflow-hidden shadow-md">
                 <div className="relative aspect-square">
                   <Image
                     src={product.imageUrl}
                     alt={product.title}
                     fill
                     className="object-cover transition-transform group-hover:scale-105"
+                    onError={(e) => console.error("Image failed to load:", e)}
                   />
 
                   {/* Discount badge */}
