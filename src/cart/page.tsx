@@ -120,7 +120,7 @@
                         <p className="text-[#9f9f9f]">{item.productName}</p>
                       </td>
                       {/* Price */}
-                      <td className="border border-[#f9f1e7] text-[#9f9f9f]">Rs. {item.productPrice}</td>
+                      <td className="border border-[#f9f1e7] text-[#9f9f9f]">$ {item.productPrice}</td>
                       {/* Quantity */}
                       <td className="text-[#9f9f9f] mb-10 flex justify-center items-center h-full">
                         <Input
@@ -136,7 +136,7 @@
                       </td>
                       {/* SubTotal */}
                       <td className="border border-[#f9f1e7] text-[#9f9f9f]">
-                        Rs. {(item.productPrice * item.qty * (100 - item.dicountPercentage)) / 100}
+                        $ {(item.productPrice * item.qty * (100 - item.dicountPercentage)) / 100}
                       </td>
 
                       {/* Action */}

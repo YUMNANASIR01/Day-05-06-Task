@@ -110,13 +110,13 @@ export default function Cart() {
 
             <div className="text-[14px] sm:text-[16px] leading-[20px] sm:leading-[24px] flex items-center justify-between w-full mb-[20px] sm:mb-[31px]">
               <p>Subtotal</p>
-              <p className="text-[#a5a4ae]">Rs. {cardItems.reduce((total, item) => total + Number(item.price) * Number(item.quantity), 0)}.00</p>
+              <p className="text-[#a5a4ae]">$ {cardItems.reduce((total, item) => total + Number(item.price) * Number(item.quantity), 0)}.00</p>
             </div>
 
             <div className="text-[14px] sm:text-[16px] leading-[20px] sm:leading-[24px] flex items-center justify-between w-full">
               <p>Total</p>
               <p className="text-[#b88e2f] text-[18px] sm:text-[20px] leading-[26px] sm:leading-[30px]">
-                Rs. {cardItems.reduce((total, item) => total + Number(item.price) * Number(item.quantity), 0)}.00
+                $ {cardItems.reduce((total, item) => total + Number(item.price) * Number(item.quantity), 0)}.00
               </p>
             </div>
 

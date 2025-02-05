@@ -237,18 +237,18 @@ export default function CheckoutForm() {
                 {cartItem.map((item: Iproduct, index:number)=>{return (
                   <div className="flex justify-between text-gray-600" key={index}>
                     <span>{item.name} × {item.quantity}</span>
-                    <span>Rs. {(+item.price * +item.quantity)}.00</span>
+                    <span>$ {(+item.price * +item.quantity)}.00</span>
                 </div>
                 )})}
 
                 <div className="flex justify-between border-t pt-4">
                   <span>Subtotal</span>
-                  <span>Rs. {cartItem.reduce((total: number, item: Iproduct)=>{return total + (+item.price * +item.quantity)},0)}.00</span>
+                  <span>$ {cartItem.reduce((total: number, item: Iproduct)=>{return total + (+item.price * +item.quantity)},0)}.00</span>
                 </div>
 
                 <div className="flex justify-between border-t pt-4">
                   <span>Total</span>
-                  <span className="text-[#B88E2F] font-bold">Rs. {cartItem.reduce((total: number, item: Iproduct)=>{return total + (+item.price * +item.quantity)},0)}.00</span>
+                  <span className="text-[#B88E2F] font-bold">$ {cartItem.reduce((total: number, item: Iproduct)=>{return total + (+item.price * +item.quantity)},0)}.00</span>
                 </div>
 
                 <RadioGroup defaultValue="bank-transfer" className="mt-8">

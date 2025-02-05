@@ -138,7 +138,7 @@ export default function Wishlist() {
                   </span>
                 </div>
                 <Link href="/cart">
-                  <Button className="w-full text-sm sm:text-base h-9 sm:h-10">
+                  <Button className="w-full text-sm sm:text-base h-9 sm:h-10 mt-10">
                     View Cart
                   </Button>
                 </Link>
